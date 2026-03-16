@@ -1,0 +1,37 @@
+name: 🚗 Generar Dashboard de Flota
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.xlsx'
+      - '**.XLSX'
+      - 'template.html'
+      - 'generate.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install openpyxl
+
+      - name: Generar index.html desde el Excel
+        run: python generate.py
+
+      - name: Guardar index.html generado
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🚗 Dashboard actualizado $(date +'%d/%m/%Y %H:%M')"
+          git push
