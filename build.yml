@@ -8,6 +8,7 @@ on:
       - '**.XLSX'
       - 'template.html'
       - 'generate.py'
+  workflow_dispatch:
 
 permissions:
   contents: write
