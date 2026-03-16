@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANNAVA — Gestión de Flota</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Sora:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #f2f6f2;
+    --surface: #ffffff;
+    --card: #ffffff;
+    --border: #cde0cd;
+    --accent: #2D9E3F;
+    --accent-soft: #2D9E3F14;
+    --green: #1e8a30;
+    --green-soft: #1e8a3014;
+    --red: #d93025;
+    --red-soft: #d9302514;
+    --yellow: #c07800;
+    --yellow-soft: #c0780014;
+    --blue: #1a6fcf;
+    --blue-soft: #1a6fcf14;
+    --text: #162016;
+    --muted: #4a6e4a;
+    --faint: #8aaa8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 6px #00000010;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 24px;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 62px;
+  }
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 17px;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+  .spacer { flex: 1; }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tab-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 5px 13px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* MAIN */
+  .main { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+
+  /* VIEWS */
+  .view { display: none; flex-direction: column; gap: 20px; }
+  .view.active { display: flex; }
+
+  /* STAT CARDS */
+  .stat-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    flex: 1;
+    min-width: 120px;
+  }
+  .stat-val {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .stat-sub { font-size: 11px; color: var(--faint); margin-top: 3px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    border-radius: 6px;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--border);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+
+  /* FILTER ROW */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: 'Sora', sans-serif;
+    outline: none;
+    flex: 1;
+    min-width: 200px;
+    max-width: 380px;
+  }
+  .search-input::placeholder { color: var(--faint); }
+  .filter-btn {
+    background: none;
+    border: 1px solid var(--faint);
+    color: var(--faint);
+    border-radius: 7px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    transition: all 0.15s;
+  }
+  .filter-btn.active-red { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+  .filter-btn.active-yellow { border-color: var(--yellow); color: var(--yellow); background: var(--yellow-soft); }
+  .filter-btn.active-green { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+  .filter-btn.active-blue { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+  .filter-btn.active-accent { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .filter-btn.active-muted { border-color: var(--muted); color: var(--muted); background: #8b949e18; }
+
+  select.filter-sel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: 'Sora', sans-serif;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* VEHICLE CARD */
+  .v-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .v-card.expanded { box-shadow: 0 0 0 2px #3fb95044; }
+  .v-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    flex-wrap: wrap;
+  }
+  .v-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .v-meta { flex: 1; min-width: 0; }
+  .v-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .v-title { font-size: 14px; font-weight: 800; }
+  .v-patente {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .v-progress-row { display: flex; align-items: center; gap: 8px; }
+  .v-pct {
+    font-weight: 800;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+  .v-badges { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; flex-shrink: 0; }
+  .v-chevron { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+  .v-body { padding: 16px 18px; border-top: 1px solid var(--border); display: none; flex-direction: column; gap: 14px; }
+  .v-body.open { display: flex; }
+
+  /* INFO GRID */
+  .info-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+  .info-item { flex: 1; min-width: 160px; }
+  .info-label { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .info-val { font-size: 13px; font-weight: 600; }
+
+  /* SECTION BOX */
+  .section-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  /* REPAIR ROW */
+  .rep-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+  }
+  .rep-tipo { flex: 1; font-size: 13px; font-weight: 600; min-width: 120px; }
+  .rep-cost { font-size: 12px; color: var(--muted); }
+  .rep-prov { font-size: 11px; color: var(--faint); }
+
+  /* BUTTON */
+  .btn {
+    border-radius: 7px;
+    padding: 5px 13px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    border: 1px solid;
+    transition: all 0.1s;
+  }
+  .btn-green { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .btn-red { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .btn-yellow { background: var(--yellow-soft); border-color: var(--yellow); color: var(--yellow); }
+  .btn-blue { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+  .btn-accent { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .btn-muted { background: #8b949e12; border-color: var(--faint); color: var(--muted); }
+  .btn-ghost { background: none; border: none; cursor: pointer; font-size: 13px; padding: 3px 6px; }
+  .btn-dashed {
+    background: var(--accent-soft);
+    border: 1px dashed var(--accent);
+    color: var(--accent);
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  /* FORM */
+  .form-box {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .form-title { font-size: 14px; font-weight: 800; color: var(--accent); }
+  .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+  .form-group.wide { flex: 3; min-width: 220px; }
+  .form-label { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: 1px; }
+  .form-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: 'Sora', sans-serif;
+    outline: none;
+    width: 100%;
+  }
+  .form-input::placeholder { color: var(--faint); }
+
+  /* MAINTENANCE CARD */
+  .mant-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .mant-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .mant-info { flex: 1; min-width: 180px; }
+  .mant-tipo { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+  .mant-sub { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .mant-obs { font-size: 11px; color: var(--faint); font-style: italic; margin-top: 4px; }
+  .mant-costs { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; flex-shrink: 0; }
+  .mant-actions { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
+  .mant-action-btns { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; justify-content: flex-end; }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 11px;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  td { padding: 9px 14px; font-size: 13px; border-top: 1px solid var(--border); }
+  .td-mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+  /* DASHBOARD CHART ROW */
+  .chart-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .chart-label { width: 100px; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ALERT BOX */
+  .alert-box {
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .section-header-title {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-title { font-size: 22px; font-weight: 800; }
+  .count-label { font-size: 12px; color: var(--faint); margin-left: auto; }
+
+  .empty { color: var(--faint); text-align: center; padding: 40px; font-size: 14px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    width: 100%;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 1px 4px #00000008;
+  }
+  .kpi-card.kpi-main {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-soft), 0 2px 8px #2D9E3F18;
+  }
+  .kpi-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  .kpi-val {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+  .kpi-label { font-size: 12px; font-weight: 700; color: var(--text); margin-top: 4px; }
+  .kpi-sub { font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    .header-inner { height: auto; padding: 10px 0; flex-wrap: wrap; }
+    .tabs { order: 3; width: 100%; }
+    .tab-btn { font-size: 11px; padding: 5px 9px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <div style="width:36px;height:36px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🌿</div>
+      <div>
+        <div class="logo">CANNAVA</div>
+        <div style="font-size:10px;color:var(--muted);font-family:'Sora',sans-serif;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-top:-1px">Gestión de Flota Vehicular</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;padding-right:8px;border-right:1px solid var(--border);margin-right:4px" id="fecha-actualizacion"></div>
+    <div class="tabs">
+      <button class="tab-btn" onclick="showTab('pendientes')">🔧 Mantenimientos</button>
+      <button class="tab-btn" onclick="showTab('dashboard')">📊 Dashboard</button>
+      <button class="tab-btn" onclick="showTab('flota')">🚗 Flota</button>
+      <button class="tab-btn" onclick="showTab('repuestos')">🔄 Repuestos</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ========================= MANTENIMIENTOS ========================= -->
+  <div id="view-pendientes" class="view">
+
+    <div class="stat-row" id="mant-stats"></div>
+
+    <!-- Form -->
+    <div class="form-box" id="mant-form" style="display:none">
+      <div class="form-title" id="form-title">➕ Nuevo Mantenimiento</div>
+      <input type="hidden" id="edit-vid" value="">
+      <input type="hidden" id="edit-ridx" value="">
+      <div class="form-row">
+        <div class="form-group wide">
+          <label class="form-label">Vehículo *</label>
+          <select class="form-input" id="f-vehiculo"></select>
+        </div>
+        <div class="form-group wide">
+          <label class="form-label">Tipo de Reparación / Mantenimiento *</label>
+          <input class="form-input" id="f-tipo" placeholder="Ej: Cambio de aceite, Frenos, Inyectores...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select class="form-input" id="f-estado">
+            <option value="false">PENDIENTE</option>
+            <option value="null">EN PROCESO</option>
+            <option value="true">HECHO</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Costo Repuesto ($)</label>
+          <input class="form-input" id="f-crep" type="number" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Costo M.O. ($)</label>
+          <input class="form-input" id="f-cmo" type="number" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Proveedor</label>
+          <input class="form-input" id="f-prov" placeholder="CARPEGO, CIEL...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Proveedor 2</label>
+          <input class="form-input" id="f-prov2" placeholder="Alternativo...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha Programada</label>
+          <input class="form-input" id="f-fecha" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:3;min-width:200px">
+          <label class="form-label">Observaciones</label>
+          <input class="form-input" id="f-obs" placeholder="Notas adicionales...">
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-green" onclick="saveForm()" style="padding:8px 22px;font-size:13px" id="save-btn">✅ Registrar</button>
+        <button class="btn btn-muted" onclick="closeForm()" style="padding:8px 16px;font-size:13px">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="filter-row">
+      <span class="page-title" style="font-size:18px">Mantenimientos</span>
+      <button class="btn btn-accent" onclick="openForm()" style="padding:7px 16px" id="new-btn">+ Nuevo</button>
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        <button class="filter-btn" id="fb-pendiente" onclick="setMantFilter('pendiente')">⚠ Pendientes</button>
+        <button class="filter-btn" id="fb-proceso" onclick="setMantFilter('proceso')">⟳ En Proceso</button>
+        <button class="filter-btn" id="fb-hecho" onclick="setMantFilter('hecho')">✓ Hechos</button>
+        <button class="filter-btn active-muted" id="fb-todos" onclick="setMantFilter('todos')">Todos</button>
+      </div>
+      <select class="filter-sel" id="mant-sel-vehiculo" onchange="renderMantenimientos()" style="margin-left:auto">
+        <option value="todos">Todos los vehículos</option>
+      </select>
+    </div>
+
+    <div id="mant-list"></div>
+  </div>
+
+  <!-- ========================= DASHBOARD ========================= -->
+  <div id="view-dashboard" class="view">
+    <div class="page-title" style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px">Resumen General de Flota</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Estado actualizado de los 9 vehículos propios de Cannava</div>
+    <div id="dash-stats"></div>
+    <div class="section-header">
+      <div class="section-header-title">📊 Estado por vehículo — Gráficos comparativos</div>
+      <div style="padding:16px 18px" id="dash-chart"></div>
+    </div>
+  </div>
+
+  <!-- ========================= FLOTA ========================= -->
+  <div id="view-flota" class="view">
+    <div class="filter-row">
+      <input class="search-input" id="flota-search" placeholder="🔍 Buscar por vehículo, patente o responsable..." oninput="renderFlota()">
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        <button class="filter-btn active-muted" id="fs-todos" onclick="setFlotaFilter('todos')">Todos</button>
+        <button class="filter-btn" id="fs-ok" onclick="setFlotaFilter('ok')">🟢 OK</button>
+        <button class="filter-btn" id="fs-alerta" onclick="setFlotaFilter('alerta')">🟡 Alerta</button>
+        <button class="filter-btn" id="fs-critico" onclick="setFlotaFilter('critico')">🔴 Crítico</button>
+        <button class="filter-btn" id="ft-todos" onclick="setTipoFilter('todos')">Todos tipos</button>
+        <button class="filter-btn" id="ft-cam" onclick="setTipoFilter('CAMIONETA')">Camioneta</button>
+        <button class="filter-btn" id="ft-mid" onclick="setTipoFilter('MIDIBUS')">Midibus</button>
+      </div>
+      <span class="count-label" id="flota-count"></span>
+    </div>
+    <div id="flota-list"></div>
+  </div>
+
+  <!-- ========================= REPUESTOS ========================= -->
+  <div id="view-repuestos" class="view">
+    <div class="page-title">Repuestos & Componentes</div>
+
+    <div class="section-header">
+      <div class="section-header-title">🔄 Cubiertas</div>
+      <div class="tbl-wrap">
+        <table id="tbl-cubiertas">
+          <thead><tr><th>Vehículo</th><th>Patente</th><th>Rodado</th><th>A Cambiar</th><th>Reemplazadas</th><th>Fecha Cambio</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-header-title">🔋 Baterías</div>
+      <div style="padding:12px 18px;display:flex;flex-direction:column;gap:8px" id="bat-list"></div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-header-title">
+        <span>💰 Costos Registrados</span>
+        <span id="costo-total" style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:15px"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table id="tbl-costos">
+          <thead><tr><th>Vehículo</th><th>Patente</th><th>Reparación</th><th>Repuesto</th><th>M.O.</th><th>Proveedor</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const FLEET = /*__FLEET_DATA__*/[];
+
+// ============================================================
+// HELPERS
+// ============================================================
+const ars = n => (n != null && n !== '') ? '$' + Number(n).toLocaleString('es-AR') : '—';
+const pctColor = p => p >= 80 ? 'var(--green)' : p >= 50 ? 'var(--yellow)' : 'var(--red)';
+const pctBg = p => p >= 80 ? 'var(--green-soft)' : p >= 50 ? 'var(--yellow-soft)' : 'var(--red-soft)';
+
+const ESTADO = {
+  true:  { label:'HECHO',     color:'var(--green)',  bg:'var(--green-soft)',  icon:'✓' },
+  false: { label:'PENDIENTE', color:'var(--red)',    bg:'var(--red-soft)',    icon:'⚠' },
+  null:  { label:'EN PROCESO',color:'var(--yellow)', bg:'var(--yellow-soft)', icon:'⟳' },
+};
+
+function badge(label, color, bg) {
+  return `<span class="badge" style="color:${color};background:${bg};border:1px solid ${color}44">${label}</span>`;
+}
+
+function getEstado(val) {
+  if (val === true || val === 'true') return true;
+  if (val === false || val === 'false') return false;
+  return null;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let currentTab = 'pendientes';
+let mantFilter = 'todos';
+let flotaFilter = 'todos';
+let tipoFilter  = 'todos';
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + tab).classList.add('active');
+  // activate tab button
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick') === `showTab('${tab}')`) b.classList.add('active');
+  });
+  if (tab === 'pendientes')  renderMantenimientos();
+  if (tab === 'dashboard')   renderDashboard();
+  if (tab === 'flota')       renderFlota();
+  if (tab === 'repuestos')   renderRepuestos();
+}
+
+// ============================================================
+// MANTENIMIENTOS
+// ============================================================
+function setMantFilter(f) {
+  mantFilter = f;
+  ['todos','pendiente','proceso','hecho'].forEach(x => {
+    const el = document.getElementById('fb-'+x);
+    el.className = 'filter-btn';
+    if (x === f) {
+      const map = {todos:'active-muted',pendiente:'active-red',proceso:'active-yellow',hecho:'active-green'};
+      el.classList.add(map[x]);
+    }
+  });
+  renderMantenimientos();
+}
+
+function renderMantStats() {
+  const all = FLEET.flatMap(v => v.reparaciones);
+  const pend = all.filter(r => r.realizado === false).length;
+  const proc = all.filter(r => r.realizado === null).length;
+  const hech = all.filter(r => r.realizado === true).length;
+  document.getElementById('mant-stats').innerHTML = `
+    ${statCard(pend, 'Pendientes', 'var(--red)', '')}
+    ${statCard(proc, 'En Proceso', 'var(--yellow)', '')}
+    ${statCard(hech, 'Completados', 'var(--green)', '')}
+    ${statCard(all.length, 'Total Registrados', 'var(--blue)', '')}
+  `;
+  // populate vehicle select
+  const sel = document.getElementById('mant-sel-vehiculo');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="todos">Todos los vehículos</option>' +
+    FLEET.map(v => `<option value="${v.id}">${v.patente} — ${v.vehiculo.substring(0,22)}</option>`).join('');
+  sel.value = cur || 'todos';
+}
+
+function statCard(val, label, color, sub) {
+  return `<div class="stat-card"><div class="stat-val" style="color:${color}">${val}</div><div class="stat-label">${label}</div>${sub?`<div class="stat-sub">${sub}</div>`:''}</div>`;
+}
+
+function renderMantenimientos() {
+  renderMantStats();
+  const selV = document.getElementById('mant-sel-vehiculo').value;
+
+  let rows = [];
+  FLEET.forEach(v => {
+    v.reparaciones.forEach((r, idx) => {
+      const matchE = mantFilter === 'todos'
+        || (mantFilter === 'pendiente' && r.realizado === false)
+        || (mantFilter === 'proceso'  && r.realizado === null)
+        || (mantFilter === 'hecho'    && r.realizado === true);
+      const matchV = selV === 'todos' || String(v.id) === selV;
+      if (matchE && matchV) rows.push({ r, v, idx });
+    });
+  });
+
+  const el = document.getElementById('mant-list');
+  if (rows.length === 0) { el.innerHTML = '<div class="empty">No hay mantenimientos con ese filtro.</div>'; return; }
+
+  el.innerHTML = rows.map(({ r, v, idx }) => {
+    const st = ESTADO[r.realizado];
+    const total = (Number(r.costoRepuesto)||0) + (Number(r.costoMO)||0);
+    const sc = pctColor(v.estadoPct);
+
+    const actionBtns = [];
+    if (r.realizado !== true)  actionBtns.push(`<button class="btn btn-green" style="font-size:11px;padding:3px 9px" onclick="markAs(${v.id},${idx},true)">✓ Hecho</button>`);
+    if (r.realizado !== null)  actionBtns.push(`<button class="btn btn-yellow" style="font-size:11px;padding:3px 9px" onclick="markAs(${v.id},${idx},null)">⟳ Proceso</button>`);
+    if (r.realizado !== false) actionBtns.push(`<button class="btn btn-red" style="font-size:11px;padding:3px 9px" onclick="markAs(${v.id},${idx},false)">⚠ Pendiente</button>`);
+
+    return `<div class="mant-card" style="border-left:4px solid ${st.color};margin-bottom:10px">
+      <div class="mant-icon" style="background:${st.bg};color:${st.color}">${st.icon}</div>
+      <div class="mant-info">
+        <div class="mant-tipo">${r.tipo}</div>
+        <div class="mant-sub">
+          <span class="v-patente">${v.patente}</span>
+          <span style="font-size:11px;color:var(--muted)">${v.vehiculo}</span>
+          <span style="font-size:11px;color:${sc}">(${v.estadoPct}%)</span>
+          ${r.fechaProgramada ? `<span style="font-size:11px;color:var(--blue)">📅 ${r.fechaProgramada}</span>` : ''}
+        </div>
+        ${r.observaciones ? `<div class="mant-obs">${r.observaciones}</div>` : ''}
+      </div>
+      <div class="mant-costs">
+        ${r.costoRepuesto ? `<span style="font-size:12px;color:var(--muted)">Repuesto: <b style="color:var(--green);font-family:'JetBrains Mono',monospace">${ars(r.costoRepuesto)}</b></span>` : ''}
+        ${(r.costoMO != null && r.costoMO !== '') ? `<span style="font-size:12px;color:var(--muted)">M.O.: <b style="color:var(--blue);font-family:'JetBrains Mono',monospace">${ars(r.costoMO)}</b></span>` : ''}
+        ${total > 0 ? `<span style="font-size:13px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace">Total: ${ars(total)}</span>` : ''}
+        ${r.proveedor ? `<span style="font-size:11px;color:var(--faint)">${r.proveedor}${r.proveedor2?' / '+r.proveedor2:''}</span>` : ''}
+      </div>
+      <div class="mant-actions">
+        ${badge(st.label, st.color, st.bg)}
+        <div class="mant-action-btns">
+          ${actionBtns.join('')}
+          <button class="btn-ghost" style="color:var(--blue)" onclick="openEditForm(${v.id},${idx})" title="Editar">✏️</button>
+          <button class="btn-ghost" style="color:var(--faint)" onclick="deleteRep(${v.id},${idx})" title="Eliminar">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markAs(vid, ridx, estado) {
+  const v = FLEET.find(x => x.id === vid);
+  if (v) v.reparaciones[ridx].realizado = estado;
+  renderMantenimientos();
+  if (currentTab === 'dashboard') renderDashboard();
+}
+
+function deleteRep(vid, ridx) {
+  if (!confirm('¿Eliminar este mantenimiento?')) return;
+  const v = FLEET.find(x => x.id === vid);
+  if (v) v.reparaciones.splice(ridx, 1);
+  renderMantenimientos();
+}
+
+// FORM
+function populateVehicleSelect() {
+  document.getElementById('f-vehiculo').innerHTML =
+    '<option value="">— Seleccionar —</option>' +
+    FLEET.map(v => `<option value="${v.id}">${v.patente} — ${v.vehiculo}</option>`).join('');
+}
+
+function openForm() {
+  document.getElementById('edit-vid').value = '';
+  document.getElementById('edit-ridx').value = '';
+  document.getElementById('form-title').textContent = '➕ Nuevo Mantenimiento';
+  document.getElementById('save-btn').textContent = '✅ Registrar Mantenimiento';
+  document.getElementById('f-vehiculo').value = '';
+  document.getElementById('f-tipo').value = '';
+  document.getElementById('f-estado').value = 'false';
+  document.getElementById('f-crep').value = '';
+  document.getElementById('f-cmo').value = '';
+  document.getElementById('f-prov').value = '';
+  document.getElementById('f-prov2').value = '';
+  document.getElementById('f-fecha').value = '';
+  document.getElementById('f-obs').value = '';
+  document.getElementById('mant-form').style.display = 'flex';
+  document.getElementById('new-btn').style.display = 'none';
+  document.getElementById('mant-form').scrollIntoView({ behavior:'smooth' });
+}
+
+function openEditForm(vid, ridx) {
+  const v = FLEET.find(x => x.id === vid);
+  const r = v.reparaciones[ridx];
+  document.getElementById('edit-vid').value = vid;
+  document.getElementById('edit-ridx').value = ridx;
+  document.getElementById('form-title').textContent = '✏️ Editar Mantenimiento';
+  document.getElementById('save-btn').textContent = '💾 Guardar Cambios';
+  document.getElementById('f-vehiculo').value = vid;
+  document.getElementById('f-tipo').value = r.tipo;
+  document.getElementById('f-estado').value = r.realizado === true ? 'true' : r.realizado === false ? 'false' : 'null';
+  document.getElementById('f-crep').value = r.costoRepuesto ?? '';
+  document.getElementById('f-cmo').value = r.costoMO ?? '';
+  document.getElementById('f-prov').value = r.proveedor ?? '';
+  document.getElementById('f-prov2').value = r.proveedor2 ?? '';
+  document.getElementById('f-fecha').value = r.fechaProgramada ?? '';
+  document.getElementById('f-obs').value = r.observaciones ?? '';
+  document.getElementById('mant-form').style.display = 'flex';
+  document.getElementById('new-btn').style.display = 'none';
+  document.getElementById('mant-form').scrollIntoView({ behavior:'smooth' });
+}
+
+function closeForm() {
+  document.getElementById('mant-form').style.display = 'none';
+  document.getElementById('new-btn').style.display = '';
+}
+
+function saveForm() {
+  const vid = document.getElementById('f-vehiculo').value;
+  const tipo = document.getElementById('f-tipo').value.trim();
+  if (!vid || !tipo) { alert('Seleccioná un vehículo e ingresá el tipo de mantenimiento.'); return; }
+
+  const newRep = {
+    tipo,
+    realizado: getEstado(document.getElementById('f-estado').value),
+    costoRepuesto: document.getElementById('f-crep').value ? Number(document.getElementById('f-crep').value) : null,
+    costoMO: document.getElementById('f-cmo').value ? Number(document.getElementById('f-cmo').value) : null,
+    proveedor: document.getElementById('f-prov').value,
+    proveedor2: document.getElementById('f-prov2').value,
+    fechaProgramada: document.getElementById('f-fecha').value,
+    observaciones: document.getElementById('f-obs').value,
+  };
+
+  const editVid = document.getElementById('edit-vid').value;
+  const editRidx = document.getElementById('edit-ridx').value;
+
+  if (editVid && editRidx !== '') {
+    const v = FLEET.find(x => x.id === Number(editVid));
+    v.reparaciones[Number(editRidx)] = newRep;
+  } else {
+    const v = FLEET.find(x => x.id === Number(vid));
+    v.reparaciones.push(newRep);
+  }
+
+  closeForm();
+  renderMantenimientos();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const allReps = FLEET.flatMap(v => v.reparaciones);
+  const pend = allReps.filter(r => r.realizado === false).length;
+  const proc = allReps.filter(r => r.realizado === null).length;
+  const hech = allReps.filter(r => r.realizado === true).length;
+  const crit = FLEET.filter(v => v.estadoPct < 50).length;
+  const alerta = FLEET.filter(v => v.estadoPct >= 50 && v.estadoPct < 80).length;
+  const ok = FLEET.filter(v => v.estadoPct >= 80).length;
+  const bat  = FLEET.filter(v => v.requiereBateria).length;
+  const cub  = FLEET.reduce((a,v) => a + (Number(v.cubiertasACambiar)||0), 0);
+  const tot  = allReps.reduce((a,r) => a + (Number(r.costoRepuesto)||0) + (Number(r.costoMO)||0), 0);
+  const totalLitros = FLEET.reduce((a,v) => a + (v.combustible ? v.combustible.litros : 0), 0);
+  const totalCargas = FLEET.reduce((a,v) => a + (v.combustible ? v.combustible.cargas : 0), 0);
+  const pctOperativos = Math.round(ok / FLEET.length * 100);
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-main">
+        <div class="kpi-icon" style="background:var(--accent-soft);color:var(--accent)">🚗</div>
+        <div class="kpi-val" style="color:var(--accent)">${FLEET.length}</div>
+        <div class="kpi-label">Vehículos en Flota</div>
+        <div class="kpi-sub">Flota propia activa</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--green-soft);color:var(--green)">✅</div>
+        <div class="kpi-val" style="color:var(--green)">${pctOperativos}%</div>
+        <div class="kpi-label">Operativos</div>
+        <div class="kpi-sub">${ok} de ${FLEET.length} en buen estado</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--red-soft);color:var(--red)">⚠</div>
+        <div class="kpi-val" style="color:var(--red)">${crit}</div>
+        <div class="kpi-label">Críticos</div>
+        <div class="kpi-sub">${alerta} en alerta · ${ok} en OK</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--yellow-soft);color:var(--yellow)">🔧</div>
+        <div class="kpi-val" style="color:var(--yellow)">${pend}</div>
+        <div class="kpi-label">Reparaciones Pendientes</div>
+        <div class="kpi-sub">${proc} en proceso · ${hech} completadas</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--accent-soft);color:var(--accent)">💰</div>
+        <div class="kpi-val" style="color:var(--accent);font-size:18px">${ars(tot)}</div>
+        <div class="kpi-label">Inversión Registrada</div>
+        <div class="kpi-sub">Repuestos + mano de obra</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--blue-soft);color:var(--blue)">⛽</div>
+        <div class="kpi-val" style="color:var(--blue)">${totalLitros.toLocaleString('es-AR')} L</div>
+        <div class="kpi-label">Combustible Total</div>
+        <div class="kpi-sub">${totalCargas} cargas registradas</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--yellow-soft);color:var(--yellow)">🔋</div>
+        <div class="kpi-val" style="color:var(--yellow)">${bat}</div>
+        <div class="kpi-label">Necesitan Batería</div>
+        <div class="kpi-sub">Cambio pendiente</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:var(--red-soft);color:var(--red)">🔄</div>
+        <div class="kpi-val" style="color:var(--red)">${cub}</div>
+        <div class="kpi-label">Cubiertas a Cambiar</div>
+        <div class="kpi-sub">En toda la flota</div>
+      </div>
+    </div>
+  `;
+
+  const maxLitros = Math.max(...FLEET.map(v => v.combustible ? v.combustible.litros : 0));
+
+  document.getElementById('dash-chart').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:8px">
+      <div>
+        <div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Estado del vehículo (%)</div>
+        ${FLEET.map(v => `
+          <div class="chart-row">
+            <div class="chart-label">${v.patente}</div>
+            <div class="progress-wrap">
+              <div class="progress-fill" style="width:${v.estadoPct}%;background:${pctColor(v.estadoPct)}"></div>
+            </div>
+            <div style="width:40px;text-align:right;font-size:12px;font-weight:800;color:${pctColor(v.estadoPct)};font-family:'JetBrains Mono',monospace;flex-shrink:0">${v.estadoPct}%</div>
+          </div>
+        `).join('')}
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Combustible cargado (litros)</div>
+        ${FLEET.map(v => {
+          const litros = v.combustible ? v.combustible.litros : 0;
+          const pct = maxLitros > 0 ? (litros / maxLitros * 100) : 0;
+          return `
+          <div class="chart-row">
+            <div class="chart-label">${v.patente}</div>
+            <div class="progress-wrap">
+              <div class="progress-fill" style="width:${pct}%;background:var(--blue)"></div>
+            </div>
+            <div style="width:56px;text-align:right;font-size:11px;font-weight:700;color:var(--blue);font-family:'JetBrains Mono',monospace;flex-shrink:0">${litros.toLocaleString('es-AR')}L</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// FLOTA
+// ============================================================
+function setFlotaFilter(f) {
+  flotaFilter = f;
+  ['todos','ok','alerta','critico'].forEach(x => {
+    const el = document.getElementById('fs-'+x);
+    el.className = 'filter-btn';
+    if (x === f) {
+      const map = {todos:'active-muted',ok:'active-green',alerta:'active-yellow',critico:'active-red'};
+      el.classList.add(map[x]);
+    }
+  });
+  renderFlota();
+}
+
+function setTipoFilter(f) {
+  tipoFilter = f;
+  document.getElementById('ft-todos').className = 'filter-btn' + (f==='todos'?' active-muted':'');
+  document.getElementById('ft-cam').className = 'filter-btn' + (f==='CAMIONETA'?' active-blue':'');
+  document.getElementById('ft-mid').className = 'filter-btn' + (f==='MIDIBUS'?' active-blue':'');
+  renderFlota();
+}
+
+function renderFlota() {
+  const q = (document.getElementById('flota-search').value || '').toLowerCase();
+  const filtered = FLEET.filter(v => {
+    const ms = v.vehiculo.toLowerCase().includes(q) || v.patente.toLowerCase().includes(q) || (v.responsable||'').toLowerCase().includes(q);
+    const me = flotaFilter==='todos' || (flotaFilter==='ok'&&v.estadoPct>=80) || (flotaFilter==='alerta'&&v.estadoPct>=50&&v.estadoPct<80) || (flotaFilter==='critico'&&v.estadoPct<50);
+    const mt = tipoFilter==='todos' || v.tipo===tipoFilter;
+    return ms && me && mt;
+  });
+  document.getElementById('flota-count').textContent = `${filtered.length} de ${FLEET.length} vehículos`;
+  document.getElementById('flota-list').innerHTML = filtered.map(v => vehicleCard(v)).join('');
+}
+
+function vehicleCard(v) {
+  const pend = v.reparaciones.filter(r => r.realizado === false).length;
+  const hech = v.reparaciones.filter(r => r.realizado === true).length;
+  const sc = pctColor(v.estadoPct);
+  const sbg = pctBg(v.estadoPct);
+  const totalCost = v.reparaciones.reduce((a,r) => a + (Number(r.costoRepuesto)||0) + (Number(r.costoMO)||0), 0);
+
+  const repsHtml = v.reparaciones.map((r,i) => {
+    const st = ESTADO[r.realizado];
+    const tot = (Number(r.costoRepuesto)||0) + (Number(r.costoMO)||0);
+    return `<div class="rep-row">
+      ${badge(st.label, st.color, st.bg)}
+      <span class="rep-tipo">${r.tipo}</span>
+      ${r.costoRepuesto ? `<span class="rep-cost">Rep: ${ars(r.costoRepuesto)}</span>` : ''}
+      ${(r.costoMO!=null&&r.costoMO!=='') ? `<span class="rep-cost">M.O.: ${ars(r.costoMO)}</span>` : ''}
+      <span class="rep-prov">${r.proveedor||''}</span>
+    </div>`;
+  }).join('');
+
+  const esteticaHtml = v.estetica && v.estetica !== '-' ? `
+    <div class="section-box"><div class="section-title">🎨 Estética (Dep. Judicial)</div>
+    <div style="color:var(--muted);font-size:12px;line-height:1.6">${v.estetica}</div></div>` : '';
+
+  const obsHtml = v.observaciones ? `
+    <div class="alert-box" style="background:var(--yellow-soft);border:1px solid #d2992244">
+      <span style="color:var(--yellow);font-weight:700;margin-right:6px">⚠ NOTA:</span>
+      <span style="font-size:12px">${v.observaciones}</span>
+    </div>` : '';
+
+  return `<div class="v-card" id="vc-${v.id}" style="margin-bottom:12px">
+    <div class="v-header" onclick="toggleCard(${v.id})">
+      <div class="v-icon" style="background:${sbg}">${v.tipo==='MIDIBUS'?'🚐':'🚗'}</div>
+      <div class="v-meta">
+        <div class="v-title-row">
+          <span class="v-title">${v.vehiculo}</span>
+          <span class="v-patente">${v.patente}</span>
+          ${badge(v.tipo, 'var(--blue)', 'var(--blue-soft)')}
+          <span style="font-size:11px;color:var(--faint)">${v.año}</span>
+        </div>
+        <div class="v-progress-row">
+          <div class="progress-wrap"><div class="progress-fill" style="width:${v.estadoPct}%;background:${sc}"></div></div>
+          <span class="v-pct" style="color:${sc}">${v.estadoPct}%</span>
+        </div>
+      </div>
+      <div class="v-badges">
+        ${pend>0 ? badge(`${pend} pendientes`,'var(--red)','var(--red-soft)') : ''}
+        ${hech>0 ? badge(`${hech} hechas`,'var(--green)','var(--green-soft)') : ''}
+        ${v.requiereBateria ? badge('🔋 BATERÍA','var(--yellow)','var(--yellow-soft)') : ''}
+      </div>
+      <span class="v-chevron" id="chv-${v.id}">▼</span>
+    </div>
+    <div class="v-body" id="vb-${v.id}">
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Responsable</div><div class="info-val">${v.responsable||'—'}</div></div>
+        <div class="info-item"><div class="info-label">Marca</div><div class="info-val">${v.marca}</div></div>
+        <div class="info-item"><div class="info-label">Batería</div><div class="info-val">${badge(v.requiereBateria?'🔋 REQUIERE CAMBIO':'✓ OK', v.requiereBateria?'var(--yellow)':'var(--green)', v.requiereBateria?'var(--yellow-soft)':'var(--green-soft)')}</div></div>
+        <div class="info-item"><div class="info-label">Chasis</div><div class="info-val td-mono" style="font-size:11px;color:var(--muted)">${v.chasis||'—'}</div></div>
+        <div class="info-item"><div class="info-label">Motor</div><div class="info-val td-mono" style="font-size:11px;color:var(--muted)">${v.motor||'—'}</div></div>
+        ${v.combustible ? `<div class="info-item"><div class="info-label">⛽ Combustible</div><div class="info-val" style="color:var(--blue)">${v.combustible.litros.toLocaleString('es-AR')} L <span style="font-size:11px;color:var(--faint)">(${v.combustible.cargas} cargas)</span></div></div>` : ''}
+      </div>
+      ${v.rodado ? `<div class="section-box">
+        <div class="section-title">🔄 Cubiertas</div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          <div><div style="font-size:11px;color:var(--faint)">Rodado</div><div style="font-weight:600">${v.rodado}</div></div>
+          <div><div style="font-size:11px;color:var(--faint)">A Cambiar</div><div>${v.cubiertasACambiar>0?badge(v.cubiertasACambiar,'var(--red)','var(--red-soft)'):'<span style="color:var(--faint)">—</span>'}</div></div>
+          <div><div style="font-size:11px;color:var(--faint)">Reemplazadas</div><div>${v.cubiertasReemplazadas>0?badge(v.cubiertasReemplazadas,'var(--green)','var(--green-soft)'):'<span style="color:var(--faint)">—</span>'}</div></div>
+          <div><div style="font-size:11px;color:var(--faint)">Fecha Cambio</div><div style="color:${v.fechaCambioCubiertas?'var(--blue)':'var(--faint)'}">${v.fechaCambioCubiertas||'—'}</div></div>
+        </div>
+      </div>` : ''}
+      ${esteticaHtml}
+      ${obsHtml}
+      <div>
+        <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span>🔧 Reparaciones / Mantenimientos</span>
+          ${totalCost>0?`<span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800">Total: ${ars(totalCost)}</span>`:''}
+        </div>
+        ${repsHtml || '<div style="color:var(--faint);font-size:12px;padding:6px 0">Sin reparaciones registradas</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleCard(id) {
+  const body = document.getElementById('vb-'+id);
+  const chv  = document.getElementById('chv-'+id);
+  const card = document.getElementById('vc-'+id);
+  const open = body.classList.toggle('open');
+  chv.textContent = open ? '▲' : '▼';
+  card.classList.toggle('expanded', open);
+}
+
+// ============================================================
+// REPUESTOS
+// ============================================================
+function renderRepuestos() {
+  // Cubiertas
+  const cubBody = document.querySelector('#tbl-cubiertas tbody');
+  const withRodado = FLEET.filter(v => v.rodado);
+  cubBody.innerHTML = withRodado.map(v => `<tr>
+    <td>${v.vehiculo}</td>
+    <td class="td-mono" style="color:var(--accent)">${v.patente}</td>
+    <td style="color:var(--muted)">${v.rodado}</td>
+    <td>${v.cubiertasACambiar>0?badge(v.cubiertasACambiar,'var(--red)','var(--red-soft)'):'<span style="color:var(--faint)">—</span>'}</td>
+    <td>${v.cubiertasReemplazadas>0?badge(v.cubiertasReemplazadas,'var(--green)','var(--green-soft)'):'<span style="color:var(--faint)">—</span>'}</td>
+    <td style="color:${v.fechaCambioCubiertas?'var(--blue)':'var(--faint)'}">${v.fechaCambioCubiertas||'—'}</td>
+  </tr>`).join('');
+
+  // Baterías
+  document.getElementById('bat-list').innerHTML = FLEET.map(v => `
+    <div style="display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--surface);border-radius:8px">
+      <span class="td-mono" style="color:var(--accent);width:90px">${v.patente}</span>
+      <span style="flex:1;font-size:13px">${v.vehiculo}</span>
+      ${badge(v.requiereBateria?'🔋 REQUIERE CAMBIO':'✓ OK', v.requiereBateria?'var(--yellow)':'var(--green)', v.requiereBateria?'var(--yellow-soft)':'var(--green-soft)')}
+    </div>
+  `).join('');
+
+  // Costos
+  let total = 0;
+  const costoRows = [];
+  FLEET.forEach(v => {
+    v.reparaciones.forEach(r => {
+      const rep = Number(r.costoRepuesto)||0;
+      const mo  = Number(r.costoMO)||0;
+      if (rep || mo) {
+        total += rep + mo;
+        costoRows.push(`<tr>
+          <td style="color:var(--muted)">${v.vehiculo}</td>
+          <td class="td-mono" style="color:var(--accent)">${v.patente}</td>
+          <td>${r.tipo}</td>
+          <td class="td-mono" style="color:var(--green)">${ars(r.costoRepuesto)}</td>
+          <td class="td-mono" style="color:var(--blue)">${ars(r.costoMO)}</td>
+          <td style="color:var(--faint)">${r.proveedor||'—'}</td>
+        </tr>`);
+      }
+    });
+  });
+  document.getElementById('costo-total').textContent = ars(total);
+  document.querySelector('#tbl-costos tbody').innerHTML = costoRows.join('');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  // Fecha de última actualización
+  const hoy = new Date();
+  const opts = { day:'2-digit', month:'long', year:'numeric' };
+  document.getElementById('fecha-actualizacion').textContent =
+    'Actualizado: ' + hoy.toLocaleDateString('es-AR', opts);
+
+  populateVehicleSelect();
+  showTab('dashboard');
+  setFlotaFilter('todos');
+  setTipoFilter('todos');
+  setMantFilter('todos');
+});
+</script>
+</body>
+</html>
