@@ -9,6 +9,9 @@ on:
       - 'template.html'
       - 'generate.py'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configurar Python
         uses: actions/setup-python@v5
