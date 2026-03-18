@@ -630,7 +630,1056 @@
 // ============================================================
 // DATA
 // ============================================================
-const FLEET = [];
+const FLEET = [
+  {
+    "id": 1,
+    "vehiculo": "HILUX CD SRV 3.0 4X4",
+    "patente": "NZU308",
+    "marca": "TOYOTA",
+    "tipo": "CAMIONETA",
+    "año": 2014,
+    "chasis": "8AJFZ29G5F6174551",
+    "motor": "1KDA488133",
+    "responsable": "SIN USO",
+    "estadoPct": 0,
+    "requiereBateria": true,
+    "rodado": "265-65-R17",
+    "cubiertasACambiar": 4,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Inutilizable. Mantenimientos urgentes/pendientes.",
+    "combustible": {
+      "litros": 285.0,
+      "cargas": 4
+    },
+    "reparaciones": []
+  },
+  {
+    "id": 2,
+    "vehiculo": "RANGER 2 CD 4X4 XLS 3.2L",
+    "patente": "OFB802",
+    "marca": "FORD",
+    "tipo": "CAMIONETA",
+    "año": 2014,
+    "chasis": "8AFAR22JBFJ273114",
+    "motor": "QW2PFJ273114",
+    "responsable": "FABIAN GONZALES",
+    "estadoPct": 80,
+    "requiereBateria": true,
+    "rodado": "255-70-R16",
+    "cubiertasACambiar": 2,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Pedir garantía por reparaciones.",
+    "combustible": {
+      "litros": 3462.0,
+      "cargas": 51
+    },
+    "reparaciones": []
+  },
+  {
+    "id": 3,
+    "vehiculo": "PRADO LAND CRUISER",
+    "patente": "GHQ969",
+    "marca": "TOYOTA",
+    "tipo": "CAMIONETA",
+    "año": 2007,
+    "chasis": "JTEBY25J770054951",
+    "motor": "1KZ1582466",
+    "responsable": "SIN USO",
+    "estadoPct": 30,
+    "requiereBateria": true,
+    "rodado": "265-65-R17",
+    "cubiertasACambiar": 4,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Inutilizable. Mantenimientos urgentes/pendientes.",
+    "combustible": {
+      "litros": 1375.0,
+      "cargas": 24
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "TREN DELANTERO COMPLETO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES TRASEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES DELANTEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENOS DELANTEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENOS TRASEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENO DE MANO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION DE PARAGOLPE  DELANTERO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION DE OPTICAS DELANTERAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "vehiculo": "HILUX 4X2 CD SRV 3.0",
+    "patente": "AA757OT",
+    "marca": "TOYOTA",
+    "tipo": "CAMIONETA",
+    "año": 2016,
+    "chasis": "8AJEZ39G9C2537258",
+    "motor": "1KD5810031",
+    "responsable": "TOMAS VARGAS DURAN",
+    "estadoPct": 50,
+    "requiereBateria": false,
+    "rodado": "265-65-R17",
+    "cubiertasACambiar": 0,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Negra.",
+    "combustible": {
+      "litros": 5436.0,
+      "cargas": 85
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENOS DELANTEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENOS TRASEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE FRENO DE MANO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES DELANTEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES TRASEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "PARILLA FRONTAL",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "PARAGOLPE DELANTERO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LAMPARAS PRINCIPALES QUEMADAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION COMPLETA DE SISTEMA A/C",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE OPTICAS DELANTERAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE/REPARACION DE ARRANQUE",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "COPIA DE LLAVE",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LLANTA DE AUXILIO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "GATO HIDRAULICO + LLAVE PARA SUBIR Y BAJAR RUEDA",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVI Y REPARACION DE MOTOR DE ARRANQUE",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION DE ALTERNADOR",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "vehiculo": "AMAROK CS 2.0 140CV",
+    "patente": "AC442VH",
+    "marca": "VOLKSWAGEN",
+    "tipo": "CAMIONETA",
+    "año": 2018,
+    "chasis": "8AWSD42H2JA023873",
+    "motor": "CNF094651",
+    "responsable": "SERENOS",
+    "estadoPct": 85,
+    "requiereBateria": false,
+    "rodado": "255-70-R16",
+    "cubiertasACambiar": 2,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "",
+    "combustible": {
+      "litros": 5265.0,
+      "cargas": 80
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "RODAMIENTO DELANTERO DERECHO",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "FALLA EN MOTOR POR VALVULAS",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LAMPARAS PRINCIPALES QUEMADAS",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "2 FOCOS H7",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "RULEMAN DELANTERO DERECHO",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SENSORES DE RUEDA DELANTERA",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "VÁLVULA REGULADORA DE PRESION",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "VÁLVULA REGULADORA DE CAUDAL",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SENSOR DE PRESION",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "KIT DE FILTROS COMPLETOS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "8 Lt ACEITE SINTÉTICO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "vehiculo": "AMAROK CD 2.0 4X4 180CV",
+    "patente": "MPR852",
+    "marca": "VOLKSWAGEN",
+    "tipo": "CAMIONETA",
+    "año": 2013,
+    "chasis": "8AEDB22H7DA033757",
+    "motor": "CNE032930",
+    "responsable": "SIN USO",
+    "estadoPct": 30,
+    "requiereBateria": true,
+    "rodado": "265-65-R17",
+    "cubiertasACambiar": 2,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Inutilizable. Mantenimientos urgentes/pendientes.",
+    "combustible": {
+      "litros": 2515.0,
+      "cargas": 38
+    },
+    "reparaciones": [
+      {
+        "tipo": "CORREA POLI V KIT COMPLETO CON TENSOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION COMPLETA DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "PARABRISA DELANTERO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION COMPLETA DE SISTEMA A/C",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "RODAMIENTOS DE RUEDAS DELANTERAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "GATO HIDRAULICO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "vehiculo": "AMAROK DC 2.0L TDI 180CV 4X4",
+    "patente": "AA932XX",
+    "marca": "VOLKSWAGEN",
+    "tipo": "CAMIONETA",
+    "año": 2017,
+    "chasis": "8AWDB22H6HA004823",
+    "motor": "CNE094381",
+    "responsable": "MARCELO GUASTELLA",
+    "estadoPct": 80,
+    "requiereBateria": false,
+    "rodado": "265-65-R17",
+    "cubiertasACambiar": 2,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "",
+    "combustible": {
+      "litros": 3867.0,
+      "cargas": 59
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": 290000.0,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "TREN DELANTERO COMPLETO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": 290000.0,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES DELANTEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": 290000.0,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "AMORTIGUADORES TRASEROS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": 290000.0,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION DE BUJES DE DIRECCION",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": 290000.0,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "PARABRISA DELANTERO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "vehiculo": "SPRINTER 515 CDIC",
+    "patente": "PKF116",
+    "marca": "MERCEDES BENZ",
+    "tipo": "MIDIBUS",
+    "año": 2016,
+    "chasis": "8AC906657GE117934",
+    "motor": "651955W0055810",
+    "responsable": "JOEL HUANUCO",
+    "estadoPct": 80,
+    "requiereBateria": true,
+    "rodado": "195-75-R16",
+    "cubiertasACambiar": 0,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "",
+    "combustible": {
+      "litros": 5510.0,
+      "cargas": 94
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "FUGA POR CONEXIÓN",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "GATO HIDRAULICO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LAMPARAS PRINCIPALES QUEMADAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "vehiculo": "SPRINTER 515 CDIC",
+    "patente": "AD755DX",
+    "marca": "MERCEDES BENZ",
+    "tipo": "MIDIBUS",
+    "año": 2019,
+    "chasis": "8AC906657KE164683",
+    "motor": "651955W0090281",
+    "responsable": "FACUNDO RUIZ",
+    "estadoPct": 75,
+    "requiereBateria": false,
+    "rodado": "195-75-R16",
+    "cubiertasACambiar": 0,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "",
+    "combustible": {
+      "litros": 2657.0,
+      "cargas": 44
+    },
+    "reparaciones": [
+      {
+        "tipo": "TREN DELANTERO COMPLETO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "TREN TRASERO COMPLETO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LAMPARAS PRINCIPALES QUEMADAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "GATO HIDRAULICO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LLAVE DE AUXILIO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "SENSOR DE RECIPIENTE DE LIQUIDO REFRIGERANTE",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "vehiculo": "TORO",
+    "patente": "AA757MH",
+    "marca": "FIAT",
+    "tipo": "CAMIONETA",
+    "año": 2017,
+    "chasis": "",
+    "motor": "",
+    "responsable": "LUCAS CALVO",
+    "estadoPct": 30,
+    "requiereBateria": true,
+    "rodado": "225-65-R17",
+    "cubiertasACambiar": 2,
+    "cubiertasReemplazadas": 0,
+    "fechaCambioCubiertas": null,
+    "estetica": "",
+    "observaciones": "Inutilizable. Mantenimientos urgentes/pendientes.",
+    "combustible": {
+      "litros": 1553.0,
+      "cargas": 31
+    },
+    "reparaciones": [
+      {
+        "tipo": "SERVICE DE MOTOR",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "JUNTA DE HOMOCINETICA",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "LAMPARAS PRINCIPALES QUEMADAS",
+        "realizado": true,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE PARABRISA DELANTERO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "TREN DELANTERO COMPLETO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CAMBIO DE ESCOBILLAS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "REPARACION COMPLETA DE SISTEMA A/C",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "CONJUNTO CENTRAL TURBO",
+        "realizado": null,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "KIT JUNTAS DESCARBONIZANTE Y ADMISIÓN",
+        "realizado": null,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "KIT FILTROS COMPLETOS",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "8 Lt ACEITE SINTÉTICO",
+        "realizado": false,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      },
+      {
+        "tipo": "HOMOCINÉTICA IZQUIERDA Y DERECHA",
+        "realizado": null,
+        "costoRepuesto": null,
+        "costoMO": null,
+        "proveedor": "",
+        "proveedor2": "JiSPORT",
+        "fechaProgramada": "",
+        "observaciones": ""
+      }
+    ]
+  }
+];
 
 // ============================================================
 // HELPERS
